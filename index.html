@@ -1,588 +1,947 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>احتفال التخرج</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Tajawal:wght@300;500;700&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0a1a3f">
+<title>حفل تخرج قسم الفيزياء الطبية · دفعة ٢٠٢٦</title>
 
-        :root {
-            --navy-deep: #0a1a3f;
-            --gold: #fbbf24;
-            --gold-bright: #fcd34d;
-            --gold-deep: #d97706;
-        }
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Tajawal:wght@300;500;700&display=swap" rel="stylesheet">
 
-        body {
-            font-family: 'Tajawal', sans-serif;
-            background: radial-gradient(ellipse at center, #1e3a8a 0%, var(--navy-deep) 100%);
-            color: white;
-            overflow: hidden;
-            min-height: 100vh;
-        }
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        /* ===== شاشة العداد التنازلي ===== */
-        .countdown-screen {
-            position: fixed;
-            inset: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            z-index: 100;
-            background: radial-gradient(ellipse at center, #1e3a8a 0%, var(--navy-deep) 100%);
-            transition: opacity 0.8s ease, visibility 0.8s ease;
-        }
+  :root {
+    --navy-deep:   #0a1a3f;
+    --gold:        #fbbf24;
+    --gold-bright: #fcd34d;
+    --gold-deep:   #d97706;
+    --text-soft:   rgba(255, 255, 255, .72);
+    --text-mute:   rgba(255, 255, 255, .45);
+  }
 
-        .countdown-screen.hidden {
-            opacity: 0;
-            visibility: hidden;
-        }
+  html, body { height: 100%; }
 
-        .countdown-title {
-            font-family: 'Cairo', sans-serif;
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--gold);
-            margin-bottom: 3rem;
-            letter-spacing: 4px;
-            opacity: 0.9;
-            text-align: center;
-            padding: 0 1rem;
-        }
+  body {
+    font-family: 'Tajawal', 'Cairo', system-ui, -apple-system, sans-serif;
+    background: radial-gradient(circle at 50% 0%, #1e3a8a 0%, #0a1a3f 55%, #050c22 100%);
+    color: #fff;
+    min-height: 100dvh;
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
 
-        .countdown-title .cap {
-            font-size: 3rem;
-            display: block;
-            margin-bottom: 1rem;
-            animation: cap-float 2.5s ease-in-out infinite;
-        }
+  .screen {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 1.5rem 1rem;
+  }
+  .screen > * { margin: auto; }
 
-        @keyframes cap-float {
-            0%, 100% { transform: translateY(0) rotate(-3deg); }
-            50% { transform: translateY(-15px) rotate(3deg); }
-        }
+  /* ================= حاوية الصور (نمط موحّد) ================= */
+  /* الصورة مخفية حتى تُحمَّل، وSVG يظهر كبديل */
+  .photo-media {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    overflow: hidden;
+    background: radial-gradient(circle at 50% 30%, #1e3a8a, #0a1a3f);
+  }
+  .photo-media img {
+    display: none;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    filter: brightness(.85) saturate(1.15) contrast(1.05);
+  }
+  .photo-media .photo-fallback {
+    position: absolute;
+    inset: 22%;
+    display: grid;
+    place-items: center;
+    padding: 0;
+    transition: opacity .3s ease;
+  }
+  .photo-media .photo-fallback svg { width: 100%; height: 100%; display: block; }
+  .photo-media.is-loaded img { display: block; }
+  .photo-media.is-loaded .photo-fallback { opacity: 0; pointer-events: none; }
 
-        .countdown-number {
-            font-family: 'Cairo', sans-serif;
-            font-size: clamp(8rem, 25vw, 16rem);
-            font-weight: 900;
-            background: linear-gradient(135deg, var(--gold-bright) 0%, var(--gold) 50%, var(--gold-deep) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-shadow: 0 0 80px rgba(251, 191, 36, 0.6);
-            animation: number-pop 1s ease-out;
-            line-height: 1;
-            filter: drop-shadow(0 10px 40px rgba(251, 191, 36, 0.5));
-        }
+  /* ================= أركان زخرفية ================= */
+  .corner-photo {
+    position: absolute;
+    width: 78px;
+    height: 78px;
+    border-radius: 50%;
+    padding: 3px;
+    background: linear-gradient(135deg, var(--gold-bright), var(--gold), var(--gold-deep));
+    box-shadow:
+      0 10px 30px rgba(251, 191, 36, .35),
+      0 0 0 1px rgba(251, 191, 36, .25),
+      0 0 40px rgba(251, 191, 36, .15);
+    z-index: 3;
+    animation: float-photo 7s ease-in-out infinite;
+    flex-shrink: 0;
+    transition: transform .5s ease;
+  }
+  .corner-photo:hover { transform: scale(1.08) rotate(4deg); }
 
-        @keyframes number-pop {
-            0% {
-                transform: scale(0.3);
-                opacity: 0;
-            }
-            50% {
-                transform: scale(1.2);
-                opacity: 1;
-            }
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
+  .cp-tl { top: 4%;  left: 4%;  animation-delay: 0s; }
+  .cp-tr { top: 4%;  right: 4%; animation-delay: 1.75s; }
+  .cp-bl { bottom: 4%; left: 4%;  animation-delay: 3.5s; }
+  .cp-br { bottom: 4%; right: 4%; animation-delay: 5.25s; }
 
-        .countdown-ring {
-            position: absolute;
-            width: 400px;
-            height: 400px;
-            border: 3px solid rgba(251, 191, 36, 0.2);
-            border-top-color: var(--gold);
-            border-radius: 50%;
-            animation: ring-spin 1s linear infinite;
-            max-width: 80vw;
-            max-height: 80vw;
-        }
+  @keyframes float-photo {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50%      { transform: translateY(-16px) rotate(2deg); }
+  }
 
-        @keyframes ring-spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
+  /* ================= شاشة العد ================= */
+  .countdown-screen {
+    z-index: 100;
+    transition: opacity .7s ease, visibility .7s ease;
+    padding: 5rem 1rem;
+  }
+  .countdown-screen.is-hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
 
-        .countdown-ring.outer {
-            width: 500px;
-            height: 500px;
-            border-color: rgba(251, 191, 36, 0.1);
-            border-bottom-color: rgba(251, 191, 36, 0.5);
-            animation-direction: reverse;
-            animation-duration: 1.5s;
-            max-width: 90vw;
-            max-height: 90vw;
-        }
+  .countdown-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .55rem;
+    text-align: center;
+  }
 
-        /* ===== صفحة الفيديو ===== */
-        .video-page {
-            position: fixed;
-            inset: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            padding: 2rem 1rem;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 1s ease, visibility 1s ease;
-            z-index: 10;
-        }
+  .cap {
+    font-size: 2.6rem;
+    line-height: 1;
+    animation: cap-float 2.6s ease-in-out infinite;
+  }
+  @keyframes cap-float {
+    0%, 100% { transform: translateY(0) rotate(-4deg); }
+    50%      { transform: translateY(-14px) rotate(4deg); }
+  }
 
-        .video-page.show {
-            opacity: 1;
-            visibility: visible;
-        }
+  .countdown-title {
+    font-family: 'Cairo', sans-serif;
+    font-weight: 900;
+    font-size: clamp(1.05rem, 3.6vw, 1.55rem);
+    color: var(--gold);
+    line-height: 1.6;
+    max-width: 22ch;
+  }
 
-        .page-header {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
+  .countdown-kicker {
+    font-size: clamp(.8rem, 2.6vw, .95rem);
+    color: var(--text-soft);
+  }
 
-        .page-title {
-            font-family: 'Cairo', sans-serif;
-            font-size: clamp(2rem, 5vw, 3.2rem);
-            font-weight: 900;
-            background: linear-gradient(135deg, var(--gold-bright) 0%, var(--gold) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 0.5rem;
-            text-shadow: 0 0 40px rgba(251, 191, 36, 0.4);
-        }
+  /* ================= قرص العد ================= */
+  .dial {
+    position: relative;
+    width: min(78vw, 400px);
+    aspect-ratio: 1;
+    margin-top: 1.4rem;
+    display: grid;
+    place-items: center;
+    isolation: isolate;
+  }
+  .dial.pulse { animation: dial-pulse .6s ease-out; }
+  @keyframes dial-pulse {
+    0%   { transform: scale(1); }
+    45%  { transform: scale(1.07); }
+    100% { transform: scale(1); }
+  }
 
-        .page-subtitle {
-            font-family: 'Cairo', sans-serif;
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 1rem;
-            letter-spacing: 2px;
-        }
+  .ring {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    pointer-events: none;
+    z-index: 3;
+  }
+  .ring--a {
+    border-top-color: var(--gold);
+    border-right-color: rgba(251, 191, 36, .22);
+    animation: spin 1.6s linear infinite;
+  }
+  .ring--b {
+    inset: -9%;
+    border-bottom-color: rgba(251, 191, 36, .55);
+    border-left-color: rgba(251, 191, 36, .12);
+    animation: spin 2.6s linear infinite reverse;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* إطار الفيديو */
-        .video-frame {
-            position: relative;
-            width: 100%;
-            max-width: 900px;
-            border-radius: 24px;
-            overflow: hidden;
-            background: black;
-            box-shadow:
-                0 0 0 2px rgba(251, 191, 36, 0.4),
-                0 0 0 10px rgba(251, 191, 36, 0.1),
-                0 25px 80px rgba(0, 0, 0, 0.6),
-                0 0 100px rgba(251, 191, 36, 0.2);
-            transition: transform 0.4s ease;
-        }
+  /* شعارات القرص المتغيرة */
+  .dial-emblem {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 62%;
+    height: 62%;
+    padding: 3px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold-bright), var(--gold-deep));
+    box-shadow:
+      0 8px 30px rgba(251, 191, 36, .4),
+      0 0 0 1px rgba(251, 191, 36, .2);
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(.8) rotate(-8deg);
+    transition: opacity .45s ease, transform .6s cubic-bezier(.22, 1.4, .4, 1);
+    will-change: opacity, transform;
+    z-index: 1;
+    overflow: hidden;
+  }
+  .dial-emblem.is-active {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1) rotate(0deg);
+  }
+  .dial-emblem .photo-media img {
+    filter: brightness(.55) saturate(1.35) contrast(1.05);
+  }
 
-        .video-frame:hover {
-            transform: translateY(-5px);
-        }
+  /* ============ الرقم نفسه ============ */
+  .countdown-number {
+    position: relative;
+    z-index: 2;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 900;
+    font-size: clamp(4.5rem, 20vw, 9rem);
+    line-height: 1;
+    background: linear-gradient(135deg, var(--gold-bright) 0%, var(--gold) 45%, var(--gold-deep) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    filter:
+      drop-shadow(0 12px 40px rgba(251, 191, 36, .55))
+      drop-shadow(0 0 22px rgba(10, 26, 63, .95))
+      drop-shadow(0 0 4px rgba(10, 26, 63, 1));
+    will-change: transform, opacity;
+  }
+  .countdown-number.pop {
+    animation: number-pop .85s cubic-bezier(.22, 1.4, .4, 1);
+  }
+  @keyframes number-pop {
+    0%   { transform: scale(.4);  opacity: 0; }
+    60%  { transform: scale(1.12); opacity: 1; }
+    100% { transform: scale(1);   opacity: 1; }
+  }
+  .countdown-number.is-final {
+    font-size: clamp(3.2rem, 14vw, 6rem);
+    background: none;
+    -webkit-text-fill-color: initial;
+    color: #fff;
+  }
 
-        video {
-            display: block;
-            width: 100%;
-            max-height: 70vh;
-            background: black;
-        }
+  /* ================= صفحة الفيديو ================= */
+  .video-page {
+    z-index: 10;
+    padding: 1.25rem 1rem;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .8s ease .1s, visibility .8s ease .1s;
+  }
+  .video-page.is-visible { opacity: 1; visibility: visible; }
 
-        /* زخارف الزوايا */
-        .corner {
-            position: absolute;
-            width: 50px;
-            height: 50px;
-            border: 3px solid var(--gold);
-            z-index: 5;
-            pointer-events: none;
-            opacity: 0.8;
-            transition: all 0.4s ease;
-        }
+  .video-wrap {
+    width: 100%;
+    max-width: 960px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
 
-        .corner.tl { top: 12px; left: 12px; border-right: none; border-bottom: none; border-top-left-radius: 12px; }
-        .corner.tr { top: 12px; right: 12px; border-left: none; border-bottom: none; border-top-right-radius: 12px; }
-        .corner.bl { bottom: 12px; left: 12px; border-right: none; border-top: none; border-bottom-left-radius: 12px; }
-        .corner.br { bottom: 12px; right: 12px; border-left: none; border-top: none; border-bottom-right-radius: 12px; }
+  .page-header {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .35rem;
+  }
 
-        .video-frame:hover .corner {
-            opacity: 1;
-            width: 65px;
-            height: 65px;
-        }
+  .header-badge {
+    width: 62px;
+    height: 62px;
+    border-radius: 50%;
+    padding: 3px;
+    background: linear-gradient(135deg, var(--gold-bright), var(--gold-deep));
+    box-shadow: 0 8px 24px rgba(251, 191, 36, .35);
+    margin-bottom: .3rem;
+  }
 
-        /* زر التشغيل الكبير */
-        .play-btn {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 90px;
-            height: 90px;
-            background: rgba(251, 191, 36, 0.95);
-            color: var(--navy-deep);
-            border-radius: 50%;
-            border: 4px solid rgba(255, 255, 255, 0.3);
-            cursor: pointer;
-            font-size: 2rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 10px 40px rgba(251, 191, 36, 0.6);
-            transition: all 0.3s ease;
-            z-index: 6;
-            padding-right: 8px;
-        }
+  .eyebrow {
+    font-family: 'Cairo', sans-serif;
+    font-size: .85rem;
+    font-weight: 700;
+    color: var(--gold);
+    opacity: .9;
+  }
 
-        .play-btn:hover {
-            transform: translate(-50%, -50%) scale(1.1);
-            background: var(--gold-bright);
-            box-shadow: 0 15px 50px rgba(251, 191, 36, 0.8);
-        }
+  .page-title {
+    font-family: 'Cairo', sans-serif;
+    font-weight: 900;
+    font-size: clamp(1.55rem, 4.6vw, 2.6rem);
+    line-height: 1.35;
+    background: linear-gradient(120deg, #fde68a 0%, var(--gold) 45%, #f59e0b 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
 
-        .play-btn.hidden {
-            opacity: 0;
-            pointer-events: none;
-            transform: translate(-50%, -50%) scale(0.5);
-        }
+  .page-subtitle {
+    font-size: clamp(.82rem, 2.4vw, 1.02rem);
+    color: var(--text-soft);
+  }
 
-        /* شارة HD */
-        .video-badge {
-            position: absolute;
-            top: 25px;
-            right: 25px;
-            background: rgba(10, 26, 63, 0.85);
-            backdrop-filter: blur(10px);
-            color: var(--gold);
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            font-family: 'Cairo', sans-serif;
-            font-size: 0.85rem;
-            font-weight: 700;
-            letter-spacing: 2px;
-            border: 1px solid rgba(251, 191, 36, 0.4);
-            z-index: 5;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
+  .video-frame {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    max-height: 70vh;
+    border-radius: 20px;
+    overflow: hidden;
+    background: #04060d;
+    box-shadow:
+      0 0 0 1px rgba(251, 191, 36, .45),
+      0 0 0 10px rgba(251, 191, 36, .06),
+      0 24px 70px rgba(0, 0, 0, .65),
+      0 0 90px rgba(251, 191, 36, .15);
+  }
+  .video-frame::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 90px;
+    background: linear-gradient(to bottom, rgba(4, 6, 13, .8), transparent);
+    pointer-events: none;
+    z-index: 3;
+  }
 
-        .video-badge::before {
-            content: '';
-            width: 8px;
-            height: 8px;
-            background: #ef4444;
-            border-radius: 50%;
-            animation: pulse 1.5s infinite;
-        }
+  .video-frame video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background: #04060d;
+  }
 
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
-        }
+  .video-badge {
+    position: absolute;
+    top: 14px;
+    inset-inline-start: 16px;
+    z-index: 4;
+    display: flex;
+    align-items: center;
+    gap: .45rem;
+    padding: .35rem .8rem;
+    border-radius: 8px;
+    background: rgba(10, 26, 63, .8);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(251, 191, 36, .35);
+    color: var(--gold);
+    font-family: 'Cairo', sans-serif;
+    font-size: .75rem;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  .video-badge::before {
+    content: '';
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--gold);
+    animation: blink 1.8s ease-in-out infinite;
+  }
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: .25; }
+  }
 
-        /* رسالة عدم وجود الفيديو */
-        .video-message {
-            display: none;
-            padding: 4rem 2rem;
-            text-align: center;
-            color: white;
-        }
+  .play-btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 88px;
+    height: 88px;
+    display: grid;
+    place-items: center;
+    border: 3px solid rgba(255, 255, 255, .35);
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold-bright), var(--gold));
+    color: var(--navy-deep);
+    cursor: pointer;
+    z-index: 6;
+    box-shadow: 0 12px 40px rgba(251, 191, 36, .55);
+    transition: transform .25s ease, opacity .3s ease, box-shadow .25s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .play-btn svg {
+    width: 34%;
+    height: 34%;
+    fill: currentColor;
+    transform: translateX(3px);
+  }
+  .play-btn:hover {
+    transform: translate(-50%, -50%) scale(1.07);
+    box-shadow: 0 16px 52px rgba(251, 191, 36, .8);
+  }
+  .play-btn.is-hidden {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(.6);
+    pointer-events: none;
+  }
 
-        .video-message.show {
-            display: block;
-        }
+  .video-fallback {
+    display: none;
+    position: absolute;
+    inset: 0;
+    z-index: 7;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: .55rem;
+    padding: 1.25rem;
+    text-align: center;
+    background: radial-gradient(circle at 50% 40%, #10204a 0%, #04060d 100%);
+  }
+  .video-frame.has-error .video-fallback { display: flex; }
+  .video-frame.has-error video,
+  .video-frame.has-error .play-btn,
+  .video-frame.has-error .video-badge,
+  .video-frame.has-error::before { display: none; }
 
-        .message-icon {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-        }
+  .fb-icon { font-size: 2.4rem; line-height: 1; }
+  .fb-title {
+    font-family: 'Cairo', sans-serif;
+    font-size: clamp(1rem, 3.2vw, 1.25rem);
+    color: var(--gold);
+  }
+  .fb-text {
+    font-size: clamp(.78rem, 2.4vw, .9rem);
+    color: var(--text-soft);
+    line-height: 1.8;
+    max-width: 42ch;
+  }
+  .video-fallback code {
+    display: inline-block;
+    direction: ltr;
+    font-family: 'Courier New', monospace;
+    font-size: .82rem;
+    color: var(--gold);
+    background: rgba(251, 191, 36, .12);
+    border: 1px solid rgba(251, 191, 36, .25);
+    border-radius: 8px;
+    padding: .2rem .65rem;
+  }
+  .fb-hint { font-size: .78rem; color: var(--text-mute); }
 
-        .message-title {
-            font-family: 'Cairo', sans-serif;
-            font-size: 1.5rem;
-            color: var(--gold);
-            margin-bottom: 1rem;
-        }
+  .page-footer {
+    text-align: center;
+    font-size: .9rem;
+    color: var(--text-mute);
+  }
+  .page-footer span { color: var(--gold); }
 
-        .message-text {
-            color: rgba(255, 255, 255, 0.8);
-            max-width: 500px;
-            margin: 0 auto;
-            line-height: 1.8;
-        }
+  /* ================= الكونفيتي ================= */
+  .confetti-layer {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 50;
+  }
+  .confetti {
+    position: absolute;
+    top: -24px;
+    opacity: 0;
+    animation-name: confetti-fall;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+    will-change: transform, opacity;
+  }
+  @keyframes confetti-fall {
+    0%   { transform: translate3d(0, -24px, 0) rotate(0deg); opacity: 1; }
+    100% { transform: translate3d(var(--drift, 0px), 106vh, 0) rotate(720deg); opacity: .85; }
+  }
 
-        .message-text code {
-            background: rgba(251, 191, 36, 0.15);
-            color: var(--gold);
-            padding: 0.2rem 0.6rem;
-            border-radius: 6px;
-            font-family: 'Courier New', monospace;
-            direction: ltr;
-            display: inline-block;
-        }
+  /* ================= الجوال ================= */
+  @media (max-width: 640px) {
+    .countdown-screen { padding: 4.5rem 1rem; }
+    .corner-photo { width: 56px; height: 56px; }
+    .cp-tl { top: 3%;  left: 3%; }
+    .cp-tr { top: 3%;  right: 3%; }
+    .cp-bl { bottom: 3%; left: 3%; }
+    .cp-br { bottom: 3%; right: 3%; }
+    .play-btn { width: 66px; height: 66px; border-width: 2px; }
+    .video-frame { border-radius: 14px; }
+    .video-badge { font-size: .68rem; padding: .3rem .65rem; }
+    .header-badge { width: 52px; height: 52px; }
+  }
+  @media (max-width: 380px) {
+    .corner-photo { width: 46px; height: 46px; }
+  }
+  @media (max-height: 520px) {
+    .page-title { font-size: 1.35rem; }
+    .page-subtitle, .eyebrow, .header-badge { display: none; }
+    .video-frame { max-height: 78vh; }
+  }
 
-        /* الكونفيتي */
-        .confetti-container {
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            z-index: 50;
-            overflow: hidden;
-        }
-
-        .confetti {
-            position: absolute;
-            width: 12px;
-            height: 12px;
-            top: -20px;
-            opacity: 0;
-            animation: confetti-fall linear forwards;
-        }
-
-        @keyframes confetti-fall {
-            0% {
-                transform: translateY(-20px) rotate(0deg);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(110vh) rotate(720deg);
-                opacity: 0.7;
-            }
-        }
-
-        /* تذييل بسيط */
-        .page-footer {
-            margin-top: 1.5rem;
-            text-align: center;
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 0.9rem;
-            font-family: 'Cairo', sans-serif;
-        }
-
-        .page-footer .cap {
-            font-size: 1.5rem;
-            margin-bottom: 0.3rem;
-            display: inline-block;
-        }
-
-        /* استجابة الجوال */
-        @media (max-width: 768px) {
-            .countdown-title {
-                font-size: 1.3rem;
-                margin-bottom: 2rem;
-            }
-
-            .countdown-title .cap {
-                font-size: 2.5rem;
-            }
-
-            .corner {
-                width: 35px;
-                height: 35px;
-            }
-
-            .play-btn {
-                width: 70px;
-                height: 70px;
-                font-size: 1.5rem;
-            }
-
-            .video-badge {
-                font-size: 0.75rem;
-                padding: 0.4rem 0.8rem;
-                top: 15px;
-                right: 15px;
-            }
-        }
-    </style>
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: .001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: .001ms !important;
+    }
+  }
+</style>
 </head>
+
 <body>
-    <!-- شاشة العداد التنازلي -->
-    <div class="countdown-screen" id="countdownScreen">
-        <div class="countdown-title">
-            <span class="cap">🎓</span>
-            استعد للحظة المنتظرة
+
+  <!-- ============ شاشة العد التنازلي ============ -->
+  <section class="screen countdown-screen" id="countdownScreen">
+
+    <!-- صور الأركان -->
+    <div class="corner-photo cp-tl" aria-hidden="true">
+      <div class="photo-media">
+        <img data-photo crossorigin="anonymous" referrerpolicy="no-referrer"
+             src="https://images.unsplash.com/photo-1564981797816-1043664bf78d?w=240&q=80&auto=format&fit=crop"
+             alt="">
+        <div class="photo-fallback">
+          <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <path d="M50 24 L86 42 L50 60 L14 42 Z" fill="#fcd34d"/>
+            <path d="M30 49 L30 69 Q50 80 70 69 L70 49 L50 59 Z" fill="#d97706"/>
+            <path d="M86 42 L86 63" stroke="#fcd34d" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+            <circle cx="86" cy="66" r="3.5" fill="#fcd34d"/>
+          </svg>
         </div>
-        <div style="position: relative; display: flex; align-items: center; justify-content: center;">
-            <div class="countdown-ring outer"></div>
-            <div class="countdown-ring"></div>
-            <div class="countdown-number" id="countdownNumber" key="5">5</div>
-        </div>
+      </div>
     </div>
 
-    <!-- حاوية الكونفيتي -->
-    <div class="confetti-container" id="confettiContainer"></div>
-
-    <!-- صفحة الفيديو -->
-    <div class="video-page" id="videoPage">
-        <div class="page-header">
-            <h1 class="page-title">احتفال التخرج🎓قسم الفيزياء الطبية </h1>
-            <div class="page-subtitle">دفعة ٢٠٢6</div>
+    <div class="corner-photo cp-tr" aria-hidden="true">
+      <div class="photo-media">
+        <img data-photo crossorigin="anonymous" referrerpolicy="no-referrer"
+             src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=240&q=80&auto=format&fit=crop"
+             alt="">
+        <div class="photo-fallback">
+          <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="6" fill="#fcd34d"/>
+            <ellipse cx="50" cy="50" rx="34" ry="12" fill="none" stroke="#fbbf24" stroke-width="2.5" opacity=".85"/>
+            <ellipse cx="50" cy="50" rx="34" ry="12" fill="none" stroke="#fbbf24" stroke-width="2.5" opacity=".85" transform="rotate(60 50 50)"/>
+            <ellipse cx="50" cy="50" rx="34" ry="12" fill="none" stroke="#fbbf24" stroke-width="2.5" opacity=".85" transform="rotate(120 50 50)"/>
+          </svg>
         </div>
-
-        <div class="video-frame" id="videoFrame">
-            <div class="corner tl"></div>
-            <div class="corner tr"></div>
-            <div class="corner bl"></div>
-            <div class="corner br"></div>
-
-            <div class="video-badge">
-                <span>HD • ذكريات</span>
-            </div>
-
-            <video id="graduationVideo" preload="metadata" playsinline controls>
-                <source src="graduation-video.mp4" type="video/mp4">
-                <source src="video.mp4" type="video/mp4">
-                <source src="graduation-video.mov" type="video/quicktime">
-                <source src="graduation-video.webm" type="video/webm">
-            </video>
-
-            <button class="play-btn" id="playBtn" aria-label="تشغيل">▶</button>
-
-            <div class="video-message" id="videoMessage">
-                <div class="message-icon">🎬</div>
-                <div class="message-title">الفيديو غير موجود</div>
-                <div class="message-text">
-                    ضع ملف الفيديو في نفس المجلد باسم:
-                    <code>graduation-video.mp4</code>
-                    <br><br>
-                    ثم أعد فتح الصفحة.
-                </div>
-            </div>
-        </div>
-
-        <div class="page-footer">
-            <span class="cap">🎓</span><br>
-            مبروك التخرج
-        </div>
+      </div>
     </div>
 
-    <script>
-        // ====== العداد التنازلي 5 → 1 ======
-        const countdownScreen = document.getElementById('countdownScreen');
-        const countdownNumber = document.getElementById('countdownNumber');
-        const videoPage = document.getElementById('videoPage');
-        let currentCount = 5;
+    <div class="corner-photo cp-bl" aria-hidden="true">
+      <div class="photo-media">
+        <img data-photo crossorigin="anonymous" referrerpolicy="no-referrer"
+             src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=240&q=80&auto=format&fit=crop"
+             alt="">
+        <div class="photo-fallback">
+          <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <path d="M14 32 Q34 24 50 32 L50 78 Q34 70 14 78 Z" fill="#fcd34d"/>
+            <path d="M86 32 Q66 24 50 32 L50 78 Q66 70 86 78 Z" fill="#fbbf24"/>
+            <line x1="50" y1="32" x2="50" y2="78" stroke="#78350f" stroke-width="2"/>
+          </svg>
+        </div>
+      </div>
+    </div>
 
-        function updateCountdown() {
-            if (currentCount > 0) {
-                countdownNumber.textContent = currentCount;
-                // إعادة تشغيل الأنيميشن
-                countdownNumber.style.animation = 'none';
-                countdownNumber.offsetHeight; // إعادة التدفق
-                countdownNumber.style.animation = 'number-pop 1s ease-out';
-                currentCount--;
-                setTimeout(updateCountdown, 1000);
-            } else {
-                // انتهى العداد — عرض رسالة "استعد!"
-                countdownNumber.textContent = '🎉';
-                countdownNumber.style.animation = 'none';
-                countdownNumber.offsetHeight;
-                countdownNumber.style.animation = 'number-pop 1s ease-out';
+    <div class="corner-photo cp-br" aria-hidden="true">
+      <div class="photo-media">
+        <img data-photo crossorigin="anonymous" referrerpolicy="no-referrer"
+             src="https://images.unsplash.com/photo-1564981797816-1043664bf78d?w=240&q=80&auto=format&fit=crop"
+             alt="">
+        <div class="photo-fallback">
+          <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <path d="M50 16 L58 40 L84 40 L63 55 L71 80 L50 65 L29 80 L37 55 L16 40 L42 40 Z" fill="#fcd34d"/>
+          </svg>
+        </div>
+      </div>
+    </div>
 
-                // إطلاق الكونفيتي
-                celebrateBurst();
+    <div class="countdown-inner">
+      <div class="cap" aria-hidden="true">🎓</div>
 
-                // إخفاء شاشة العداد وعرض الفيديو
-                setTimeout(() => {
-                    countdownScreen.classList.add('hidden');
-                    videoPage.classList.add('show');
-                }, 1000);
-            }
-        }
+      <h1 class="countdown-title">استعدوا… لحظتكم الكبيرة تقترب</h1>
+      <p class="countdown-kicker">حفل تخرج قسم الفيزياء الطبية · دفعة ٢٠٢٦</p>
 
-        // بدء العداد بعد تحميل الصفحة
-        window.addEventListener('load', () => {
-            setTimeout(updateCountdown, 500);
-        });
+      <div class="dial" id="dial">
+        <span class="ring ring--a"></span>
+        <span class="ring ring--b"></span>
 
-        // ====== الكونفيتي ======
-        function celebrateBurst() {
-            const container = document.getElementById('confettiContainer');
-            const colors = ['#fbbf24', '#fcd34d', '#3b5bdb', '#ffffff', '#d97706', '#fef9e7'];
+        <!-- 5 -->
+        <div class="dial-emblem is-active" data-step="5">
+          <div class="photo-media">
+            <img data-photo crossorigin="anonymous" referrerpolicy="no-referrer"
+                 src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=600&q=80&auto=format&fit=crop"
+                 alt="">
+            <div class="photo-fallback">
+              <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <path d="M50 22 L88 42 L50 62 L12 42 Z" fill="#fcd34d"/>
+                <path d="M28 50 L28 72 Q50 84 72 72 L72 50 L50 60 Z" fill="#d97706"/>
+                <path d="M88 42 L88 66" stroke="#fcd34d" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+                <circle cx="88" cy="69" r="3.8" fill="#fcd34d"/>
+              </svg>
+            </div>
+          </div>
+        </div>
 
-            for (let i = 0; i < 100; i++) {
-                const confetti = document.createElement('div');
-                confetti.classList.add('confetti');
-                confetti.style.left = Math.random() * 100 + '%';
-                confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
-                confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
-                confetti.style.animationDuration = (Math.random() * 2 + 3) + 's';
-                confetti.style.animationDelay = (Math.random() * 0.5) + 's';
-                confetti.style.width = (Math.random() * 8 + 8) + 'px';
-                confetti.style.height = confetti.style.width;
-                container.appendChild(confetti);
+        <!-- 4 -->
+        <div class="dial-emblem" data-step="4">
+          <div class="photo-media">
+            <img data-photo crossorigin="anonymous" referrerpolicy="no-referrer"
+                 src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=600&q=80&auto=format&fit=crop"
+                 alt="">
+            <div class="photo-fallback">
+              <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="50" r="7" fill="#fcd34d"/>
+                <ellipse cx="50" cy="50" rx="36" ry="13" fill="none" stroke="#fbbf24" stroke-width="2.6" opacity=".9"/>
+                <ellipse cx="50" cy="50" rx="36" ry="13" fill="none" stroke="#fbbf24" stroke-width="2.6" opacity=".9" transform="rotate(60 50 50)"/>
+                <ellipse cx="50" cy="50" rx="36" ry="13" fill="none" stroke="#fbbf24" stroke-width="2.6" opacity=".9" transform="rotate(120 50 50)"/>
+              </svg>
+            </div>
+          </div>
+        </div>
 
-                // إزالة بعد انتهاء الأنيميشن
-                setTimeout(() => confetti.remove(), 6000);
-            }
-        }
+        <!-- 3 -->
+        <div class="dial-emblem" data-step="3">
+          <div class="photo-media">
+            <img data-photo crossorigin="anonymous" referrerpolicy="no-referrer"
+                 src="https://images.unsplash.com/photo-1627556704290-2b1f5853ff78?w=600&q=80&auto=format&fit=crop"
+                 alt="">
+            <div class="photo-fallback">
+              <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 30 Q34 22 50 30 L50 80 Q34 72 12 80 Z" fill="#fcd34d"/>
+                <path d="M88 30 Q66 22 50 30 L50 80 Q66 72 88 80 Z" fill="#fbbf24"/>
+                <line x1="50" y1="30" x2="50" y2="80" stroke="#78350f" stroke-width="2.2"/>
+              </svg>
+            </div>
+          </div>
+        </div>
 
-        // ====== تشغيل الفيديو ======
-        const video = document.getElementById('graduationVideo');
-        const playBtn = document.getElementById('playBtn');
-        const videoMessage = document.getElementById('videoMessage');
+        <!-- 2 -->
+        <div class="dial-emblem" data-step="2">
+          <div class="photo-media">
+            <img data-photo crossorigin="anonymous" referrerpolicy="no-referrer"
+                 src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=600&q=80&auto=format&fit=crop"
+                 alt="">
+            <div class="photo-fallback">
+              <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <rect x="16" y="30" width="68" height="44" rx="4" fill="#fcd34d"/>
+                <rect x="16" y="30" width="68" height="11" rx="4" fill="#d97706"/>
+                <path d="M50 74 L45 90 L50 86 L55 90 Z" fill="#dc2626"/>
+              </svg>
+            </div>
+          </div>
+        </div>
 
-        let videoLoaded = false;
+        <!-- 1 -->
+        <div class="dial-emblem" data-step="1">
+          <div class="photo-media">
+            <img data-photo crossorigin="anonymous" referrerpolicy="no-referrer"
+                 src="https://images.unsplash.com/photo-1564981797816-1043664bf78d?w=600&q=80&auto=format&fit=crop"
+                 alt="">
+            <div class="photo-fallback">
+              <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <path d="M50 14 L58 40 L86 40 L64 56 L72 82 L50 66 L28 82 L36 56 L14 40 L42 40 Z" fill="#fcd34d"/>
+              </svg>
+            </div>
+          </div>
+        </div>
 
-        // نجاح تحميل الفيديو
-        video.addEventListener('loadedmetadata', () => {
-            videoLoaded = true;
-            playBtn.style.display = 'flex';
-            videoMessage.classList.remove('show');
-            console.log('✓ الفيديو جاهز');
-        });
+        <!-- نهائي -->
+        <div class="dial-emblem" data-step="final">
+          <div class="photo-media">
+            <img data-photo crossorigin="anonymous" referrerpolicy="no-referrer"
+                 src="https://images.unsplash.com/photo-1627556704290-2b1f5853ff78?w=600&q=80&auto=format&fit=crop"
+                 alt="">
+            <div class="photo-fallback">
+              <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <g fill="#fcd34d">
+                  <circle cx="50" cy="50" r="7" fill="#fbbf24"/>
+                  <rect x="48" y="8" width="4" height="14" rx="2"/>
+                  <rect x="48" y="8" width="4" height="14" rx="2" transform="rotate(45 50 50)"/>
+                  <rect x="48" y="8" width="4" height="14" rx="2" transform="rotate(90 50 50)"/>
+                  <rect x="48" y="8" width="4" height="14" rx="2" transform="rotate(135 50 50)"/>
+                  <rect x="48" y="8" width="4" height="14" rx="2" transform="rotate(180 50 50)"/>
+                  <rect x="48" y="8" width="4" height="14" rx="2" transform="rotate(225 50 50)"/>
+                  <rect x="48" y="8" width="4" height="14" rx="2" transform="rotate(270 50 50)"/>
+                  <rect x="48" y="8" width="4" height="14" rx="2" transform="rotate(315 50 50)"/>
+                </g>
+              </svg>
+            </div>
+          </div>
+        </div>
 
-        // فشل تحميل جميع المصادر
-        video.addEventListener('error', () => {
-            videoLoaded = false;
-            playBtn.style.display = 'none';
-            videoMessage.classList.add('show');
-            console.log('✗ الفيديو غير متاح');
-        });
+        <span class="countdown-number pop" id="countdownNumber"
+              aria-live="assertive" aria-atomic="true">5</span>
+      </div>
+    </div>
+  </section>
 
-        // مهلة أمان: بعد 5 ثوانٍ من بدء صفحة الفيديو، تحقق
-        setTimeout(() => {
-            if (!videoLoaded && videoPage.classList.contains('show')) {
-                playBtn.style.display = 'none';
-                videoMessage.classList.add('show');
-            }
-        }, 8000);
+  <!-- ============ الكونفيتي ============ -->
+  <div class="confetti-layer" id="confettiLayer" aria-hidden="true"></div>
 
-        // زر التشغيل
-        playBtn.addEventListener('click', () => {
-            if (videoLoaded) {
-                video.play();
-                celebrateBurst();
-            }
-        });
+  <!-- ============ صفحة الفيديو ============ -->
+  <main class="screen video-page" id="videoPage">
+    <div class="video-wrap">
 
-        video.addEventListener('play', () => {
-            playBtn.classList.add('hidden');
-        });
+      <header class="page-header">
+        <div class="header-badge" aria-hidden="true">
+          <div class="photo-media">
+            <img data-photo crossorigin="anonymous" referrerpolicy="no-referrer"
+                 src="https://images.unsplash.com/photo-1627556704290-2b1f5853ff78?w=240&q=80&auto=format&fit=crop"
+                 alt="">
+            <div class="photo-fallback">
+              <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <path d="M50 22 L88 42 L50 62 L12 42 Z" fill="#fcd34d"/>
+                <path d="M28 50 L28 72 Q50 84 72 72 L72 50 L50 60 Z" fill="#d97706"/>
+                <path d="M88 42 L88 66" stroke="#fcd34d" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+                <circle cx="88" cy="69" r="3.8" fill="#fcd34d"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <p class="eyebrow">🎓 حفل التخرج</p>
+        <h1 class="page-title">قسم الفيزياء الطبية</h1>
+        <p class="page-subtitle">دفعة ٢٠٢٦ — مبروك التخرج</p>
+      </header>
 
-        video.addEventListener('pause', () => {
-            playBtn.classList.remove('hidden');
-        });
+      <div class="video-frame" id="videoFrame">
+        <div class="video-badge">ذكرياتنا · HD</div>
 
-        // النقر على الفيديو نفسه
-        video.addEventListener('click', () => {
-            if (video.paused) {
-                video.play();
-            } else {
-                video.pause();
-            }
-        });
-    </script>
+        <video id="graduationVideo" preload="metadata" playsinline controls>
+          <source src="graduation-video.mp4"  type="video/mp4">
+          <source src="video.mp4"             type="video/mp4">
+          <source src="graduation-video.mov"  type="video/quicktime">
+          <source src="graduation-video.webm" type="video/webm">
+        </video>
+
+        <button class="play-btn" id="playBtn" type="button" aria-label="تشغيل الفيديو">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.14v13.72L19 12z"/></svg>
+        </button>
+
+        <div class="video-fallback" id="videoFallback" role="status">
+          <div class="fb-icon" aria-hidden="true">🎬</div>
+          <h2 class="fb-title">الفيديو لم يظهر بعد</h2>
+          <p class="fb-text">
+            يبدو أن ملف الفيديو غير موجود في مجلد المشروع.
+            ضعه بجانب ملف الصفحة بهذا الاسم بالضبط:
+          </p>
+          <code>graduation-video.mp4</code>
+          <p class="fb-hint">ثم أعد تحميل الصفحة.</p>
+        </div>
+      </div>
+
+      <footer class="page-footer">
+        <span aria-hidden="true">🎓</span> مبروك التخرج… وبداية موفقة
+      </footer>
+
+    </div>
+  </main>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ============================================================
+     تحميل الصور مع fallback تلقائي
+     ============================================================ */
+  document.querySelectorAll('img[data-photo]').forEach(function (img) {
+    function markLoaded() {
+      var media = img.closest('.photo-media');
+      if (media) media.classList.add('is-loaded');
+    }
+    /* قد تكون الصورة محمّلة بالفعل (cache) */
+    if (img.complete && img.naturalWidth > 0) {
+      markLoaded();
+    } else {
+      img.addEventListener('load', markLoaded);
+      img.addEventListener('error', function () {
+        /* نترك SVG يظهر — لا نحتاج فعل شيء */
+        img.style.display = 'none';
+      });
+    }
+  });
+
+  /* ============================================================
+     العد التنازلي
+     ============================================================ */
+  var START_FROM   = 5;
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var countdownScreen = document.getElementById('countdownScreen');
+  var countdownNumber = document.getElementById('countdownNumber');
+  var dial            = document.getElementById('dial');
+  var videoPage       = document.getElementById('videoPage');
+  var confettiLayer   = document.getElementById('confettiLayer');
+  var emblems         = document.querySelectorAll('.dial-emblem');
+
+  var current = START_FROM;
+
+  function replay(el, cls) {
+    el.classList.remove(cls);
+    void el.offsetWidth;
+    el.classList.add(cls);
+  }
+
+  function setEmblem(step) {
+    emblems.forEach(function (el) {
+      el.classList.toggle('is-active', el.dataset.step === String(step));
+    });
+  }
+
+  function showNumber(value) {
+    setEmblem(value);
+    countdownNumber.textContent = value;
+    replay(countdownNumber, 'pop');
+    replay(dial, 'pulse');
+  }
+
+  function runCountdown() {
+    if (current > 0) {
+      showNumber(current);
+      current -= 1;
+      window.setTimeout(runCountdown, 1000);
+      return;
+    }
+    finishCountdown();
+  }
+
+  function finishCountdown() {
+    setEmblem('final');
+    countdownNumber.textContent = '🎉';
+    countdownNumber.classList.add('is-final');
+    replay(countdownNumber, 'pop');
+    replay(dial, 'pulse');
+
+    confettiBurst(reduceMotion ? 30 : 120);
+
+    window.setTimeout(function () {
+      countdownScreen.classList.add('is-hidden');
+      videoPage.classList.add('is-visible');
+
+      window.setTimeout(function () {
+        confettiBurst(reduceMotion ? 15 : 55);
+        checkVideoAvailability();
+      }, 500);
+    }, 900);
+  }
+
+  window.addEventListener('load', function () {
+    window.setTimeout(runCountdown, 500);
+  });
+
+  /* ============================================================
+     الكونفيتي
+     ============================================================ */
+  var COLORS = ['#fbbf24', '#fcd34d', '#d97706', '#ffffff', '#93c5fd', '#3b82f6'];
+
+  function confettiBurst(count) {
+    if (!confettiLayer || reduceMotion) return;
+
+    var frag = document.createDocumentFragment();
+
+    for (var i = 0; i < count; i++) {
+      var piece = document.createElement('i');
+      var size  = 6 + Math.random() * 8;
+
+      piece.className = 'confetti';
+      piece.style.left              = (Math.random() * 100) + '%';
+      piece.style.width             = size + 'px';
+      piece.style.height            = (size * (0.5 + Math.random())) + 'px';
+      piece.style.background        = COLORS[(Math.random() * COLORS.length) | 0];
+      piece.style.borderRadius      = Math.random() > 0.6 ? '50%' : '2px';
+      piece.style.animationDuration = (2.6 + Math.random() * 2.4) + 's';
+      piece.style.animationDelay    = (Math.random() * 0.6) + 's';
+      piece.style.setProperty('--drift', (Math.random() * 160 - 80) + 'px');
+
+      frag.appendChild(piece);
+      window.setTimeout(function (p) { return function () { p.remove(); }; }(piece), 6500);
+    }
+
+    confettiLayer.appendChild(frag);
+  }
+
+  /* ============================================================
+     الفيديو
+     ============================================================ */
+  var frame   = document.getElementById('videoFrame');
+  var video   = document.getElementById('graduationVideo');
+  var playBtn = document.getElementById('playBtn');
+  var sources = video.querySelectorAll('source');
+
+  var isReady       = false;
+  var hasCelebrated = false;
+
+  function markReady() {
+    if (isReady) return;
+    isReady = true;
+    frame.classList.remove('has-error');
+  }
+
+  function markError() {
+    if (isReady) return;
+    frame.classList.add('has-error');
+    playBtn.classList.add('is-hidden');
+  }
+
+  if (sources.length) {
+    sources[sources.length - 1].addEventListener('error', markError);
+  }
+  video.addEventListener('error', markError);
+  video.addEventListener('loadedmetadata', markReady);
+  video.addEventListener('canplay', markReady);
+
+  var availabilityTimer = null;
+  function checkVideoAvailability() {
+    window.clearTimeout(availabilityTimer);
+    availabilityTimer = window.setTimeout(function () {
+      if (!isReady && video.readyState === 0) markError();
+    }, 6000);
+  }
+
+  playBtn.addEventListener('click', function () {
+    var p = video.play();
+    if (p && typeof p.catch === 'function') p.catch(function () {});
+  });
+
+  video.addEventListener('play', function () {
+    playBtn.classList.add('is-hidden');
+    if (!hasCelebrated) {
+      hasCelebrated = true;
+      confettiBurst(reduceMotion ? 20 : 70);
+    }
+  });
+
+  video.addEventListener('pause', function () {
+    if (!video.ended) playBtn.classList.remove('is-hidden');
+  });
+
+  video.addEventListener('ended', function () {
+    playBtn.classList.remove('is-hidden');
+  });
+
+})();
+</script>
 </body>
 </html>
