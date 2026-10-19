@@ -7,7 +7,7 @@
 <meta name="format-detection" content="telephone=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>حفل تخرج قسم الفيزياء الطبية · دفعة ٢٠٢٦</title>
+<title>حفل تخرج قسم الفيزياء الطبية · دفعة ٢٠٢٧</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -96,7 +96,6 @@
     animation: float-photo 7s ease-in-out infinite;
     transform: translateZ(0);
   }
-
   .cp-tl { top: 4%;  left: 4%;  animation-delay: 0s; }
   .cp-tr { top: 4%;  right: 4%; animation-delay: 1.75s; }
   .cp-bl { bottom: 4%; left: 4%;  animation-delay: 3.5s; }
@@ -193,7 +192,6 @@
     100% { transform: rotate(360deg); }
   }
 
-  /* شعارات القرص */
   .dial-emblem {
     position: absolute;
     top: 50%;
@@ -254,7 +252,7 @@
   /* ================= صفحة الفيديو ================= */
   .video-page {
     z-index: 10;
-    padding: 1.25rem 1rem;
+    padding: 1rem .85rem 1.5rem;
     opacity: 0;
     visibility: hidden;
     transition: opacity .8s ease .1s, visibility .8s ease .1s;
@@ -267,52 +265,289 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1rem;
+    gap: .85rem;
   }
 
-  .page-header {
-    text-align: center;
+  /* ================= Poster Header ================= */
+  .poster-header {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: .35rem;
+    text-align: center;
+    gap: .3rem;
+    width: 100%;
+    padding: .25rem 0;
+    position: relative;
   }
 
-  .header-badge {
-    width: 62px;
-    height: 62px;
-    border-radius: 50%;
-    padding: 3px;
-    background: linear-gradient(135deg, var(--gold-bright), var(--gold-deep));
-    box-shadow: 0 8px 24px rgba(251, 191, 36, .35);
-    margin-bottom: .3rem;
+  .poster-header .graduation-cap {
+    display: block;
+    font-size: clamp(1.7rem, 5.5vw, 2.3rem);
+    line-height: 1;
+    animation: cap-float 2.6s ease-in-out infinite;
+    filter: drop-shadow(0 6px 16px rgba(251, 191, 36, .35));
   }
 
-  .eyebrow {
-    font-family: 'Cairo', sans-serif;
-    font-size: .85rem;
-    font-weight: 700;
-    color: var(--gold);
-    opacity: .9;
-  }
-
-  .page-title {
+  .poster-header h1 {
     font-family: 'Cairo', sans-serif;
     font-weight: 900;
-    font-size: clamp(1.55rem, 4.6vw, 2.6rem);
-    line-height: 1.35;
-    background: linear-gradient(120deg, #fde68a 0%, var(--gold) 45%, #f59e0b 100%);
+    font-size: clamp(1.6rem, 7.5vw, 3.1rem);
+    letter-spacing: .15em;
+    line-height: 1.1;
+    direction: ltr;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .04em;
+    background: linear-gradient(120deg, #fde68a 0%, var(--gold) 42%, #f59e0b 100%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
     -webkit-text-fill-color: transparent;
   }
 
-  .page-subtitle {
-    font-size: clamp(.82rem, 2.4vw, 1.02rem);
-    color: var(--text-soft);
+  .poster-header h1 .atom-icon {
+    display: inline-block;
+    font-size: .68em;
+    line-height: 1;
+    color: var(--gold);
+    -webkit-text-fill-color: var(--gold);
+    animation: atom-spin 8s linear infinite;
+    filter: drop-shadow(0 0 8px rgba(251, 191, 36, .8));
+    margin: 0 .04em;
+    transform-origin: center;
+    will-change: transform;
   }
 
+  @keyframes atom-spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+
+  .poster-header .divider {
+    position: relative;
+    width: clamp(90px, 32vw, 180px);
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(251, 191, 36, .8), transparent);
+    margin: .5rem 0 .35rem;
+  }
+  .poster-header .divider::before,
+  .poster-header .divider::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--gold);
+    box-shadow: 0 0 10px rgba(251, 191, 36, .9);
+    transform: translateY(-50%);
+  }
+  .poster-header .divider::before { left: -3px; }
+  .poster-header .divider::after  { right: -3px; }
+
+  .poster-header h2 {
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    font-size: clamp(.95rem, 3.6vw, 1.3rem);
+    color: #fff;
+    line-height: 1.4;
+    margin: 0;
+  }
+
+  .poster-header h3 {
+    font-family: 'Tajawal', sans-serif;
+    font-weight: 500;
+    font-size: clamp(.6rem, 1.9vw, .78rem);
+    color: var(--text-mute);
+    letter-spacing: .3em;
+    direction: ltr;
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  .poster-header .year-badge {
+    position: relative;
+    margin-top: .7rem;
+    padding: .38rem 1.3rem;
+    border-radius: 999px;
+    background: linear-gradient(135deg, var(--gold-bright), var(--gold), var(--gold-deep));
+    color: var(--navy-deep);
+    font-family: 'Cairo', sans-serif;
+    font-weight: 900;
+    font-size: clamp(.8rem, 2.8vw, 1rem);
+    letter-spacing: .2em;
+    direction: ltr;
+    overflow: hidden;
+    box-shadow:
+      0 6px 20px rgba(251, 191, 36, .4),
+      0 0 0 1px rgba(251, 191, 36, .3),
+      0 0 30px rgba(251, 191, 36, .2);
+  }
+  .poster-header .year-badge::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, transparent 30%, rgba(255, 255, 255, .55) 50%, transparent 70%);
+    animation: badge-shine 3.5s ease-in-out infinite;
+    pointer-events: none;
+  }
+  @keyframes badge-shine {
+    0%, 100% { transform: translateX(-100%); }
+    50%      { transform: translateX(100%); }
+  }
+
+  /* ================= رسالة التهنئة ================= */
+  .congrats-collapse {
+    width: 100%;
+    max-width: 720px;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    margin-top: 0;
+    transition:
+      max-height .65s cubic-bezier(.22, 1, .36, 1),
+      opacity .5s ease .05s,
+      margin-top .5s ease;
+    will-change: max-height, opacity;
+  }
+  .congrats-collapse.is-open {
+    opacity: 1;
+    margin-top: .9rem;
+  }
+
+  .congrats-message {
+    position: relative;
+    padding: 1.1rem 1.15rem .95rem;
+    border-radius: 16px;
+    background: linear-gradient(135deg, rgba(30, 58, 138, .65), rgba(10, 26, 63, .92));
+    border: 1px solid rgba(251, 191, 36, .28);
+    box-shadow:
+      0 12px 40px rgba(0, 0, 0, .45),
+      inset 0 1px 0 rgba(255, 255, 255, .06);
+    text-align: center;
+    overflow: hidden;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+  }
+  .congrats-message::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 60%;
+    background: radial-gradient(circle at 50% 0%, rgba(251, 191, 36, .12), transparent 70%);
+    pointer-events: none;
+  }
+
+  .congrats-decoration {
+    font-family: 'Cairo', serif;
+    font-size: clamp(1.6rem, 5.5vw, 2.1rem);
+    color: var(--gold);
+    opacity: .75;
+    line-height: 1;
+    margin-bottom: .1rem;
+    position: relative;
+  }
+  .congrats-decoration.bottom {
+    margin-top: .3rem;
+    margin-bottom: 0;
+  }
+
+  .congrats-line {
+    font-size: clamp(.8rem, 2.6vw, .95rem);
+    line-height: 1.95;
+    color: rgba(255, 255, 255, .88);
+    margin: .35rem 0;
+    position: relative;
+  }
+  .congrats-line .highlight {
+    color: var(--gold);
+    font-weight: 700;
+    text-shadow: 0 0 20px rgba(251, 191, 36, .25);
+  }
+
+  .congrats-highlight {
+    font-family: 'Cairo', sans-serif;
+    font-size: clamp(.88rem, 3vw, 1.05rem);
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.9;
+    margin: .65rem 0;
+    position: relative;
+  }
+  .congrats-highlight strong {
+    color: var(--gold-bright);
+    text-shadow: 0 0 24px rgba(251, 191, 36, .35);
+  }
+
+  .congrats-ornament {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .7rem;
+    margin: .55rem 0;
+    color: var(--gold);
+    position: relative;
+  }
+  .congrats-ornament span:first-child,
+  .congrats-ornament span:last-child {
+    display: block;
+    width: clamp(26px, 12vw, 60px);
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+  }
+  .congrats-ornament span:nth-child(2) {
+    font-size: .78rem;
+    color: var(--gold);
+    opacity: .9;
+  }
+
+  .congrats-final {
+    font-family: 'Cairo', sans-serif;
+    font-size: clamp(.82rem, 2.8vw, 1rem);
+    color: var(--gold-bright);
+    font-weight: 700;
+    line-height: 1.95;
+    margin-top: .45rem;
+    position: relative;
+  }
+
+  /* زر فتح الرسالة */
+  .congrats-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .4rem;
+    padding: .55rem 1.35rem;
+    border-radius: 999px;
+    background: rgba(251, 191, 36, .1);
+    border: 1px solid rgba(251, 191, 36, .35);
+    color: var(--gold);
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    font-size: clamp(.76rem, 2.6vw, .9rem);
+    cursor: pointer;
+    transition: all .25s ease;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  .congrats-toggle:hover {
+    background: rgba(251, 191, 36, .2);
+    border-color: var(--gold);
+    box-shadow: 0 6px 20px rgba(251, 191, 36, .2);
+  }
+  .congrats-toggle:active { transform: scale(.97); }
+  .congrats-toggle .arrow {
+    display: inline-block;
+    font-size: 1rem;
+    line-height: 1;
+    transition: transform .3s ease;
+  }
+  .congrats-toggle.is-open .arrow { transform: rotate(180deg); }
+
+  /* ================= إطار الفيديو ================= */
   .video-frame {
     position: relative;
     width: 100%;
@@ -406,9 +641,7 @@
     fill: currentColor;
     transform: translateX(3px);
   }
-  .play-btn:active {
-    transform: translate(-50%, -50%) scale(.94);
-  }
+  .play-btn:active { transform: translate(-50%, -50%) scale(.94); }
   .play-btn.is-hidden {
     opacity: 0;
     transform: translate(-50%, -50%) scale(.6);
@@ -461,8 +694,9 @@
 
   .page-footer {
     text-align: center;
-    font-size: .9rem;
+    font-size: .88rem;
     color: var(--text-mute);
+    padding-top: .35rem;
   }
   .page-footer span { color: var(--gold); }
 
@@ -497,14 +731,17 @@
     .play-btn { width: 66px; height: 66px; border-width: 2px; }
     .video-frame { border-radius: 14px; }
     .video-badge { font-size: .68rem; padding: .3rem .65rem; }
-    .header-badge { width: 52px; height: 52px; }
+    .video-page { padding: .85rem .65rem 1.25rem; }
+    .video-wrap { gap: .7rem; }
+    .congrats-message { padding: .9rem .95rem .8rem; border-radius: 14px; }
+    .poster-header { gap: .25rem; }
   }
   @media (max-height: 520px) and (orientation: landscape) {
     .corner-photo { width: 42px; height: 42px; }
-    .page-title { font-size: 1.35rem; }
-    .page-subtitle, .eyebrow, .header-badge { display: none; }
     .video-frame { max-height: 78vh; }
     .countdown-screen { padding: 3rem 1rem; }
+    .poster-header h1 { font-size: 1.5rem; }
+    .poster-header .graduation-cap { font-size: 1.4rem; }
   }
 </style>
 </head>
@@ -566,7 +803,7 @@
     <div class="countdown-inner">
       <div class="cap" aria-hidden="true">🎓</div>
       <h1 class="countdown-title">استعدوا… لحظتكم الكبيرة تقترب</h1>
-      <p class="countdown-kicker">حفل تخرج قسم الفيزياء الطبية · دفعة ٢٠٢٦</p>
+      <p class="countdown-kicker">حفل تخرج قسم الفيزياء الطبية · دفعة ٢٠٢٧</p>
 
       <div class="dial" id="dial">
         <span class="ring ring--a"></span>
@@ -574,7 +811,7 @@
 
         <div class="dial-emblem is-active" data-step="5">
           <div class="photo-media">
-            <img data-photo data-src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=400&q=80&auto=format&fit=crop" alt="">
+            <img data-photo data-src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=400&q=80&auto=format&fit=crop" alt="">
             <div class="photo-fallback">
               <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                 <path d="M50 22 L88 42 L50 62 L12 42 Z" fill="#fcd34d"/>
@@ -666,27 +903,54 @@
 
   <div class="confetti-layer" id="confettiLayer" aria-hidden="true"></div>
 
+  <!-- ============ صفحة الفيديو ============ -->
   <main class="screen video-page" id="videoPage">
     <div class="video-wrap">
-      <header class="page-header">
-        <div class="header-badge" aria-hidden="true">
-          <div class="photo-media">
-            <img data-photo data-src="https://images.unsplash.com/photo-1627556704290-2b1f5853ff78?w=200&q=80&auto=format&fit=crop" alt="">
-            <div class="photo-fallback">
-              <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                <path d="M50 22 L88 42 L50 62 L12 42 Z" fill="#fcd34d"/>
-                <path d="M28 50 L28 72 Q50 84 72 72 L72 50 L50 60 Z" fill="#d97706"/>
-                <path d="M88 42 L88 66" stroke="#fcd34d" stroke-width="2.5" stroke-linecap="round" fill="none"/>
-                <circle cx="88" cy="69" r="3.8" fill="#fcd34d"/>
-              </svg>
-            </div>
-          </div>
-        </div>
-        <p class="eyebrow">🎓 حفل التخرج</p>
-        <h1 class="page-title">قسم الفيزياء الطبية</h1>
-        <p class="page-subtitle">دفعة ٢٠٢٦ — مبروك التخرج</p>
+
+      <!-- Poster Header -->
+      <header class="poster-header">
+        <span class="graduation-cap" aria-hidden="true">🎓</span>
+        <h1>SENI<span class="atom-icon" aria-hidden="true">⚛</span>RS</h1>
+        <div class="divider" aria-hidden="true"></div>
+        <h2>قسم الفيزياء الطبية</h2>
+        <h3>MEDICAL PHYSICS DEPARTMENT</h3>
+        <div class="year-badge">2027</div>
       </header>
 
+      <!-- رسالة التهنئة القابلة للطي -->
+      <div class="congrats-collapse" id="congratsCollapse">
+        <div class="congrats-message">
+          <div class="congrats-decoration">❝</div>
+          <p class="congrats-line">
+            إلى من قضوا لياليهم بين <span class="highlight">معادلات الإشعاع</span> و<span class="highlight">خوارزميات العلاج</span>، وقلوبهم تنبض بالحياة... إلى من جمعوا بين <span class="highlight">دقة الفيزياء</span> و<span class="highlight">رحمة الطب</span>،
+          </p>
+          <p class="congrats-highlight">
+            إلى خريجي الفيزياء الطبية — دفعة 2027<br>
+            في <strong>جامعة الهادي</strong>
+          </p>
+          <div class="congrats-ornament" aria-hidden="true">
+            <span></span><span>✦</span><span></span>
+          </div>
+          <p class="congrats-line">
+            هنيئاً لكم هذا الإنجاز العظيم، فأنتم اليوم <span class="highlight">حرّاس الأمل</span> في مختبرات العلاج، و<span class="highlight">سفراء العلم</span> في غرف التشخيص، و<span class="highlight">عقول المستقبل</span> التي ستحمي الأرواح بالمعرفة.
+          </p>
+          <div class="congrats-ornament" aria-hidden="true">
+            <span></span><span>✦</span><span></span>
+          </div>
+          <p class="congrats-final">
+            بارك الله فيكم، وجعل خطواتكم القادمة نوراً يضيء دروب المرضى، وعزماً يرفع اسم جامعتكم عالياً.
+          </p>
+          <div class="congrats-decoration bottom">❞</div>
+        </div>
+      </div>
+
+      <button class="congrats-toggle" id="congratsToggle" type="button"
+              aria-expanded="false" aria-controls="congratsCollapse">
+        اقرأ الرسالة كاملة
+        <span class="arrow" aria-hidden="true">⌄</span>
+      </button>
+
+      <!-- الفيديو -->
       <div class="video-frame" id="videoFrame">
         <div class="video-badge">ذكرياتنا · HD</div>
 
@@ -716,6 +980,7 @@
       <footer class="page-footer">
         <span aria-hidden="true">🎓</span> مبروك التخرج… وبداية موفقة
       </footer>
+
     </div>
   </main>
 
@@ -726,7 +991,7 @@
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ============================================================
-     🖼️ تحميل الصور بمحاولتين
+     🖼️ تحميل الصور (محاولتان)
      ============================================================ */
   function loadPhoto(img) {
     var src = img.getAttribute('data-src');
@@ -763,6 +1028,47 @@
     document.querySelectorAll('img[data-photo][data-src]'),
     loadPhoto
   );
+
+  /* ============================================================
+     💬 رسالة التهنئة القابلة للطي
+     ============================================================ */
+  var congratsCollapse = document.getElementById('congratsCollapse');
+  var congratsToggle = document.getElementById('congratsToggle');
+
+  function setCongratsOpen(open) {
+    if (open) {
+      congratsCollapse.style.maxHeight = congratsCollapse.scrollHeight + 'px';
+      congratsCollapse.classList.add('is-open');
+      congratsToggle.classList.add('is-open');
+      congratsToggle.innerHTML = 'إخفاء الرسالة <span class="arrow" aria-hidden="true">⌃</span>';
+      congratsToggle.setAttribute('aria-expanded', 'true');
+      /* بعد انتهاء الأنيميشن، ثبّت max-height على المحتوى الفعلي */
+      window.setTimeout(function () {
+        if (congratsCollapse.classList.contains('is-open')) {
+          congratsCollapse.style.maxHeight = congratsCollapse.scrollHeight + 'px';
+        }
+      }, 700);
+    } else {
+      congratsCollapse.style.maxHeight = congratsCollapse.scrollHeight + 'px';
+      void congratsCollapse.offsetHeight;
+      congratsCollapse.style.maxHeight = '0';
+      congratsCollapse.classList.remove('is-open');
+      congratsToggle.classList.remove('is-open');
+      congratsToggle.innerHTML = 'اقرأ الرسالة كاملة <span class="arrow" aria-hidden="true">⌄</span>';
+      congratsToggle.setAttribute('aria-expanded', 'false');
+    }
+  }
+
+  congratsToggle.addEventListener('click', function () {
+    setCongratsOpen(!congratsCollapse.classList.contains('is-open'));
+  });
+
+  /* ضبط الارتفاع عند تغيير حجم الشاشة/الدوران */
+  window.addEventListener('resize', function () {
+    if (congratsCollapse.classList.contains('is-open')) {
+      congratsCollapse.style.maxHeight = congratsCollapse.scrollHeight + 'px';
+    }
+  });
 
   /* ============================================================
      العد التنازلي
@@ -820,6 +1126,11 @@
       countdownScreen.classList.add('is-hidden');
       videoPage.classList.add('is-visible');
 
+      /* فتح الرسالة تلقائياً على الحاسوب بعد ظهور الصفحة */
+      if (window.matchMedia('(min-width: 900px)').matches) {
+        window.setTimeout(function () { setCongratsOpen(true); }, 400);
+      }
+
       window.setTimeout(function () {
         confettiBurst(reduceMotion ? 20 : 55);
         checkVideoAvailability();
@@ -838,7 +1149,6 @@
 
   function confettiBurst(count) {
     if (!confettiLayer) return;
-
     var frag = document.createDocumentFragment();
     for (var i = 0; i < count; i++) {
       var piece = document.createElement('i');
@@ -859,12 +1169,13 @@
   }
 
   /* ============================================================
-     🎯 كشف CSS Animations + حركة JS بديلة
+     🎯 كشف CSS animations + حركة JS بديلة
      ============================================================ */
   function startJSAnimation() {
     var ringA = document.querySelector('.ring--a');
     var ringB = document.querySelector('.ring--b');
     var cap   = document.querySelector('.cap');
+    var atom  = document.querySelector('.poster-header .atom-icon');
     var corners = [
       { el: document.querySelector('.cp-tl'), delay: 0 },
       { el: document.querySelector('.cp-tr'), delay: 1.75 },
@@ -872,26 +1183,24 @@
       { el: document.querySelector('.cp-br'), delay: 5.25 }
     ];
 
-    var animatedEls = [ringA, ringB, cap];
-    corners.forEach(function (c) { if (c.el) animatedEls.push(c.el); });
-    animatedEls.forEach(function (el) {
+    [ringA, ringB, cap, atom].forEach(function (el) {
       if (el) el.style.willChange = 'transform';
     });
 
     var startTime = null;
 
     function frame(now) {
-      /* أوقف الحلقة إذا اختفت شاشة العد */
-      if (countdownScreen.classList.contains('is-hidden')) return;
-
+      if (document.visibilityState === 'hidden') {
+        requestAnimationFrame(frame);
+        return;
+      }
       if (!startTime) startTime = now;
       var elapsed = (now - startTime) / 1000;
 
-      /* الحلقات الدوّارة */
       if (ringA) ringA.style.transform = 'rotate(' + (elapsed * 225).toFixed(2) + 'deg)';
       if (ringB) ringB.style.transform = 'rotate(' + (-elapsed * (360 / 2.6)).toFixed(2) + 'deg)';
+      if (atom)  atom.style.transform  = 'rotate(' + (elapsed * 45).toFixed(2) + 'deg)';
 
-      /* قبعة التخرج */
       if (cap) {
         var ct = (elapsed % 2.6) / 2.6;
         var capY = -12 * Math.sin(ct * Math.PI);
@@ -899,13 +1208,11 @@
         cap.style.transform = 'translate3d(0, ' + capY.toFixed(2) + 'px, 0) rotate(' + capRot.toFixed(2) + 'deg)';
       }
 
-      /* الأركان الطافية */
       for (var i = 0; i < corners.length; i++) {
         var spec = corners[i];
         if (!spec.el) continue;
         var cyclePos = ((elapsed - spec.delay) % 7 + 7) % 7;
-        var t = cyclePos / 7;
-        var phase = t * Math.PI;
+        var phase = (cyclePos / 7) * Math.PI;
         var y = -14 * Math.sin(phase);
         var rot = 2 * Math.sin(phase);
         spec.el.style.transform = 'translate3d(0, ' + y.toFixed(2) + 'px, 0) rotate(' + rot.toFixed(2) + 'deg)';
@@ -913,19 +1220,16 @@
 
       requestAnimationFrame(frame);
     }
-
     requestAnimationFrame(frame);
   }
 
-  /* كشف بعد 700ms: هل CSS animation يعمل؟ */
   window.setTimeout(function () {
     var cssWorks = false;
     if (typeof document.getAnimations === 'function') {
-      var ringA = document.querySelector('.ring--a');
-      if (ringA) {
+      var probe = document.querySelector('.ring--a');
+      if (probe) {
         try {
-          var anims = ringA.getAnimations();
-          cssWorks = anims.some(function (a) {
+          cssWorks = probe.getAnimations().some(function (a) {
             return a.playState === 'running' || a.playState === 'pending';
           });
         } catch (e) { cssWorks = false; }
