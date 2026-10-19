@@ -60,8 +60,6 @@
     border-radius: 50%;
     overflow: hidden;
     background: radial-gradient(circle at 50% 30%, #1e3a8a, #0a1a3f);
-    -webkit-transform: translateZ(0);
-    transform: translateZ(0);
   }
   .photo-media img {
     display: none;
@@ -82,7 +80,7 @@
   .photo-media.is-loaded img { display: block; }
   .photo-media.is-loaded .photo-fallback { opacity: 0; pointer-events: none; }
 
-  /* ================= أركان زخرفية ================= */
+  /* ================= أركان ================= */
   .corner-photo {
     position: absolute;
     width: clamp(46px, 13vw, 78px);
@@ -96,8 +94,6 @@
       0 0 40px rgba(251, 191, 36, .15);
     z-index: 3;
     animation: float-photo 7s ease-in-out infinite;
-    will-change: transform;
-    -webkit-transform: translateZ(0);
     transform: translateZ(0);
   }
 
@@ -135,7 +131,6 @@
     font-size: clamp(2rem, 8vw, 2.6rem);
     line-height: 1;
     animation: cap-float 2.6s ease-in-out infinite;
-    will-change: transform;
   }
   @keyframes cap-float {
     0%, 100% { transform: translate3d(0, 0, 0) rotate(-4deg); }
@@ -157,7 +152,7 @@
     padding: 0 .5rem;
   }
 
-  /* ================= قرص العد ================= */
+  /* ================= قرص ================= */
   .dial {
     position: relative;
     width: min(78vw, 400px);
@@ -181,7 +176,6 @@
     border: 3px solid transparent;
     pointer-events: none;
     z-index: 3;
-    will-change: transform;
   }
   .ring--a {
     border-top-color: var(--gold);
@@ -195,8 +189,8 @@
     animation: spin 2.6s linear infinite reverse;
   }
   @keyframes spin {
-    from { transform: rotate(0deg); }
-    to   { transform: rotate(360deg); }
+    0%   { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
   }
 
   /* شعارات القرص */
@@ -215,7 +209,6 @@
     opacity: 0;
     transform: translate3d(-50%, -50%, 0) scale(.8) rotate(-8deg);
     transition: opacity .45s ease, transform .6s cubic-bezier(.22, 1.4, .4, 1);
-    will-change: opacity, transform;
     z-index: 1;
   }
   .dial-emblem.is-active {
@@ -226,7 +219,6 @@
     filter: brightness(.55) saturate(1.35) contrast(1.05);
   }
 
-  /* ============ الرقم ============ */
   .countdown-number {
     position: relative;
     z-index: 2;
@@ -243,7 +235,6 @@
       drop-shadow(0 12px 40px rgba(251, 191, 36, .55))
       drop-shadow(0 0 22px rgba(10, 26, 63, .95))
       drop-shadow(0 0 4px rgba(10, 26, 63, 1));
-    will-change: transform, opacity;
   }
   .countdown-number.pop {
     animation: number-pop .85s cubic-bezier(.22, 1.4, .4, 1);
@@ -418,10 +409,6 @@
   .play-btn:active {
     transform: translate(-50%, -50%) scale(.94);
   }
-  .play-btn:hover {
-    transform: translate(-50%, -50%) scale(1.07);
-    box-shadow: 0 16px 52px rgba(251, 191, 36, .8);
-  }
   .play-btn.is-hidden {
     opacity: 0;
     transform: translate(-50%, -50%) scale(.6);
@@ -479,7 +466,7 @@
   }
   .page-footer span { color: var(--gold); }
 
-  /* ================= الكونفيتي ================= */
+  /* ================= كونفيتي ================= */
   .confetti-layer {
     position: fixed;
     inset: 0;
@@ -494,7 +481,6 @@
     animation-name: confetti-fall;
     animation-timing-function: linear;
     animation-fill-mode: forwards;
-    will-change: transform, opacity;
   }
   @keyframes confetti-fall {
     0%   { transform: translate3d(0, -24px, 0) rotate(0deg); opacity: 1; }
@@ -520,11 +506,6 @@
     .video-frame { max-height: 78vh; }
     .countdown-screen { padding: 3rem 1rem; }
   }
-
-  /* ===== فقط الكونفيتي يُخفَّف عند تفضيل تقليل الحركة ===== */
-  @media (prefers-reduced-motion: reduce) {
-    .confetti { animation-duration: .001ms !important; opacity: 0 !important; }
-  }
 </style>
 </head>
 
@@ -533,10 +514,9 @@
   <!-- ============ شاشة العد ============ -->
   <section class="screen countdown-screen" id="countdownScreen">
 
-    <!-- الأركان الأربعة -->
     <div class="corner-photo cp-tl" aria-hidden="true">
       <div class="photo-media">
-        <img data-photo data-src="https://images.unsplash.com/photo-1564981797816-1043664bf78d?w=200&q=80&auto=format&fit=crop" alt="">
+        <img data-photo data-src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=200&q=80&auto=format&fit=crop" alt="">
         <div class="photo-fallback">
           <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
             <path d="M50 24 L86 42 L50 60 L14 42 Z" fill="#fcd34d"/>
@@ -592,10 +572,9 @@
         <span class="ring ring--a"></span>
         <span class="ring ring--b"></span>
 
-        <!-- 5 -->
         <div class="dial-emblem is-active" data-step="5">
           <div class="photo-media">
-            <img data-photo data-src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=400&q=80&auto=format&fit=crop" alt="">
+            <img data-photo data-src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=400&q=80&auto=format&fit=crop" alt="">
             <div class="photo-fallback">
               <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                 <path d="M50 22 L88 42 L50 62 L12 42 Z" fill="#fcd34d"/>
@@ -607,7 +586,6 @@
           </div>
         </div>
 
-        <!-- 4 -->
         <div class="dial-emblem" data-step="4">
           <div class="photo-media">
             <img data-photo data-src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=400&q=80&auto=format&fit=crop" alt="">
@@ -622,7 +600,6 @@
           </div>
         </div>
 
-        <!-- 3 -->
         <div class="dial-emblem" data-step="3">
           <div class="photo-media">
             <img data-photo data-src="https://images.unsplash.com/photo-1627556704290-2b1f5853ff78?w=400&q=80&auto=format&fit=crop" alt="">
@@ -636,7 +613,6 @@
           </div>
         </div>
 
-        <!-- 2 -->
         <div class="dial-emblem" data-step="2">
           <div class="photo-media">
             <img data-photo data-src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=400&q=80&auto=format&fit=crop" alt="">
@@ -650,7 +626,6 @@
           </div>
         </div>
 
-        <!-- 1 -->
         <div class="dial-emblem" data-step="1">
           <div class="photo-media">
             <img data-photo data-src="https://images.unsplash.com/photo-1564981797816-1043664bf78d?w=400&q=80&auto=format&fit=crop" alt="">
@@ -662,7 +637,6 @@
           </div>
         </div>
 
-        <!-- نهائي -->
         <div class="dial-emblem" data-step="final">
           <div class="photo-media">
             <img data-photo data-src="https://images.unsplash.com/photo-1627556704290-2b1f5853ff78?w=400&q=80&auto=format&fit=crop" alt="">
@@ -752,10 +726,7 @@
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ============================================================
-     🖼️ تحميل الصور بمحاولتين:
-     1) بدون CORS — ينجح على الهاتف ومعظم المتصفحات
-     2) مع CORS — ينجح على Firefox عند فتح الملف محلياً
-     3) إن فشل الاثنان → يبقى SVG البديل
+     🖼️ تحميل الصور بمحاولتين
      ============================================================ */
   function loadPhoto(img) {
     var src = img.getAttribute('data-src');
@@ -781,7 +752,6 @@
     img.addEventListener('load', function () {
       if (media) media.classList.add('is-loaded');
     });
-
     img.addEventListener('error', function () {
       if (attempt < 2) tryLoad();
     });
@@ -789,7 +759,6 @@
     tryLoad();
   }
 
-  /* تحميل كل صور الصفحة فور جهوزية DOM */
   Array.prototype.forEach.call(
     document.querySelectorAll('img[data-photo][data-src]'),
     loadPhoto
@@ -871,11 +840,9 @@
     if (!confettiLayer) return;
 
     var frag = document.createDocumentFragment();
-
     for (var i = 0; i < count; i++) {
       var piece = document.createElement('i');
       var size  = 6 + Math.random() * 8;
-
       piece.className = 'confetti';
       piece.style.left              = (Math.random() * 100) + '%';
       piece.style.width             = size + 'px';
@@ -885,19 +852,98 @@
       piece.style.animationDuration = (2.6 + Math.random() * 2.4) + 's';
       piece.style.animationDelay    = (Math.random() * 0.6) + 's';
       piece.style.setProperty('--drift', (Math.random() * 160 - 80) + 'px');
-
       frag.appendChild(piece);
       window.setTimeout((function (p) { return function () { p.remove(); }; }(piece)), 6500);
     }
-
     confettiLayer.appendChild(frag);
   }
 
   /* ============================================================
+     🎯 كشف CSS Animations + حركة JS بديلة
+     ============================================================ */
+  function startJSAnimation() {
+    var ringA = document.querySelector('.ring--a');
+    var ringB = document.querySelector('.ring--b');
+    var cap   = document.querySelector('.cap');
+    var corners = [
+      { el: document.querySelector('.cp-tl'), delay: 0 },
+      { el: document.querySelector('.cp-tr'), delay: 1.75 },
+      { el: document.querySelector('.cp-bl'), delay: 3.5 },
+      { el: document.querySelector('.cp-br'), delay: 5.25 }
+    ];
+
+    var animatedEls = [ringA, ringB, cap];
+    corners.forEach(function (c) { if (c.el) animatedEls.push(c.el); });
+    animatedEls.forEach(function (el) {
+      if (el) el.style.willChange = 'transform';
+    });
+
+    var startTime = null;
+
+    function frame(now) {
+      /* أوقف الحلقة إذا اختفت شاشة العد */
+      if (countdownScreen.classList.contains('is-hidden')) return;
+
+      if (!startTime) startTime = now;
+      var elapsed = (now - startTime) / 1000;
+
+      /* الحلقات الدوّارة */
+      if (ringA) ringA.style.transform = 'rotate(' + (elapsed * 225).toFixed(2) + 'deg)';
+      if (ringB) ringB.style.transform = 'rotate(' + (-elapsed * (360 / 2.6)).toFixed(2) + 'deg)';
+
+      /* قبعة التخرج */
+      if (cap) {
+        var ct = (elapsed % 2.6) / 2.6;
+        var capY = -12 * Math.sin(ct * Math.PI);
+        var capRot = -4 + 8 * Math.sin(ct * Math.PI);
+        cap.style.transform = 'translate3d(0, ' + capY.toFixed(2) + 'px, 0) rotate(' + capRot.toFixed(2) + 'deg)';
+      }
+
+      /* الأركان الطافية */
+      for (var i = 0; i < corners.length; i++) {
+        var spec = corners[i];
+        if (!spec.el) continue;
+        var cyclePos = ((elapsed - spec.delay) % 7 + 7) % 7;
+        var t = cyclePos / 7;
+        var phase = t * Math.PI;
+        var y = -14 * Math.sin(phase);
+        var rot = 2 * Math.sin(phase);
+        spec.el.style.transform = 'translate3d(0, ' + y.toFixed(2) + 'px, 0) rotate(' + rot.toFixed(2) + 'deg)';
+      }
+
+      requestAnimationFrame(frame);
+    }
+
+    requestAnimationFrame(frame);
+  }
+
+  /* كشف بعد 700ms: هل CSS animation يعمل؟ */
+  window.setTimeout(function () {
+    var cssWorks = false;
+    if (typeof document.getAnimations === 'function') {
+      var ringA = document.querySelector('.ring--a');
+      if (ringA) {
+        try {
+          var anims = ringA.getAnimations();
+          cssWorks = anims.some(function (a) {
+            return a.playState === 'running' || a.playState === 'pending';
+          });
+        } catch (e) { cssWorks = false; }
+      }
+    }
+    if (!cssWorks) {
+      console.log('[الحركة البديلة] CSS animations لا تعمل — تشغيل حركة JS');
+      startJSAnimation();
+    } else {
+      console.log('[الحركة البديلة] CSS animations تعمل — لا حاجة لحركة JS');
+    }
+  }, 700);
+
+  /* ============================================================
      الفيديو
      ============================================================ */
-  var frame   = document.getElementById('videoFrame');
-  var video   = document.getElementById('graduationVideo');
+  var frame = document.getElementById('videoFrame');
+  var video = document.getElementById('graduationVideo');
   var playBtn = document.getElementById('playBtn');
   var sources = video.querySelectorAll('source');
 
@@ -909,7 +955,6 @@
     isReady = true;
     frame.classList.remove('has-error');
   }
-
   function markError() {
     if (isReady) return;
     frame.classList.add('has-error');
@@ -943,11 +988,9 @@
       confettiBurst(reduceMotion ? 30 : 70);
     }
   });
-
   video.addEventListener('pause', function () {
     if (!video.ended) playBtn.classList.remove('is-hidden');
   });
-
   video.addEventListener('ended', function () {
     playBtn.classList.remove('is-hidden');
   });
